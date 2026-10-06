@@ -436,7 +436,12 @@ object AndroidDeviceUtils {
             Build.VERSION_CODES.TIRAMISU to 200, // KeyMint 2.0
             Build.VERSION_CODES.UPSIDE_DOWN_CAKE to 300, // KeyMint 3.0
             Build.VERSION_CODES.VANILLA_ICE_CREAM to 300, // KeyMint 3.0
-            Build.VERSION_CODES.BAKLAVA to 400, // KeyMint 4.0
+            // RMX5080 (MediaTek mt6899 + Trustonic TEE) is Android 16 but its KeyMint HAL is
+            // 3.0, and /vendor/etc/vintf/manifest/...keymint-service.trustonic.xml declares
+            // <version>3</version>. Forcing the AOSP value (400) here makes the forged record
+            // disagree with the device's own VINTF declaration, which VINTF-vs-attestation
+            // detectors flag as a mismatch. Follow the device instead of the OS mandate.
+            Build.VERSION_CODES.BAKLAVA to 300, // KeyMint 3.0 (device HAL, not the AOSP mandate)
         )
 
     /** AOSP-mandated attestation version for the running OS, or null when the SDK is unmapped. */
