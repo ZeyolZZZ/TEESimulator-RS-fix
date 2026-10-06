@@ -45,6 +45,22 @@ android {
     ndkVersion = "27.3.13750724"
     buildToolsVersion = "36.0.0"
 
+    // BouncyCastle (bcprov/bcpkix/bcutil-jdk18on) ships duplicate META-INF entries that make
+    // :app:mergeReleaseJavaResource fail with "3 files found with path 'META-INF/LICENSE.md'".
+    packaging {
+        resources {
+            excludes +=
+                setOf(
+                    "META-INF/LICENSE.md",
+                    "META-INF/LICENSE-notice.md",
+                    "META-INF/NOTICE.md",
+                    "META-INF/DEPENDENCIES",
+                    "META-INF/versions/9/OSGI-INF/MANIFEST.MF",
+                    "META-INF/*.kotlin_module",
+                )
+        }
+    }
+
     defaultConfig {
         applicationId = "org.matrix.TEESimulator"
         minSdk = 29
